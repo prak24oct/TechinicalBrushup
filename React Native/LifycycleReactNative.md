@@ -1,7 +1,7 @@
 # Lifecycle of React Native Component
  A component’s life cycle in React Native can be divided into 4 phases:
 
- ![Lifecycle](image.png)
+ ![Lifecycle](/images/image.png)
 
 1. Mounting: In this phase, component instance is created and inserted into the DOM.
 2. Updating: In updating phase, a react component is said to be born and it start growing by receiving new updates.

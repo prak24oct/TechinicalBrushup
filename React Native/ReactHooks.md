@@ -87,7 +87,7 @@ This is another hook for anyone unfamiliar with context API in react native. Fir
 
 App Component is our parent component, and within the App component, there are various child components.
 
-![alt text](image-1.png)
+![alt text](/images/image-1.png)
 
 You can see the dependency tree in the image above. Here, we have a limitation of a three-level hierarchy. Imagine if we have a 10 to 20-level hierarchy. In such cases, the useContext hook reduces our efforts from passing props to every level.
 

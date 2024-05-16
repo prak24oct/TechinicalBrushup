@@ -15,16 +15,18 @@
 ### JavaScript - 
 - [ ] Promises 
     - [ ] Promise.any
-- [ ] Bind method
+- [ ] Call , apply and Bind method
 - [ ] Async and await
+- [ ] Clousure
 
 
 
 
 ### Typescript - 
 - [ ] Array and array methods
+    - [ ] splice
 - [ ] Object and Object methods
-- [ ] Difference between ! and ? 
+- [ ] Difference between ! and ?   
 - [ ] terniary operator
 - [ ] Shallow and deep copy
 

@@ -10,6 +10,7 @@
 - [ ] Security
 - [ ] setNativeProp
 - [ ] Redux
+- [ ] React Native Architecture (Old vs New) 
 
 
 ### JavaScript - 
@@ -18,6 +19,9 @@
 - [ ] Call , apply and Bind method
 - [ ] Async and await
 - [ ] Clousure
+- [ ] Debounce & Throttlin
+- [ ] Cache function 
+- [ ] IFFE
 
 
 

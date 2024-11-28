@@ -75,3 +75,111 @@ console.log(shallowEqual(obj1, obj2)); // false (different references for nested
 console.log(deepEqual(obj1, obj2));    // true (values match, even nested)
 console.log(deepEqual(obj1, obj3));    // false (nested values are different)
 ```
+
+
+In JavaScript, **shallow cloning** and **deep cloning** refer to the ways of creating copies of objects or arrays.
+
+### Shallow Clone
+A **shallow clone** creates a new object or array, but does not copy the nested objects or arrays within it. Instead, it only copies the references to those nested elements. Therefore, if you modify a nested element in the cloned object, it will affect the original object.
+
+### Deep Clone
+A **deep clone** creates a complete copy of the object or array, including all nested objects or arrays. This means that the original and cloned objects do not share any references, and changes to one will not affect the other.
+
+### Shallow Clone Example
+In JavaScript, a shallow clone can be created using:
+1. `Object.assign()`
+2. The spread operator (`...`)
+3. `Array.prototype.slice()` (for arrays)
+
+#### Shallow Clone using `Object.assign()`:
+```javascript
+const original = { name: 'Alice', address: { city: 'New York' } };
+const shallowClone = Object.assign({}, original);
+shallowClone.address.city = 'Los Angeles';
+
+console.log(original.address.city); // Los Angeles (affected the original object)
+console.log(shallowClone.address.city); // Los Angeles
+```
+
+#### Shallow Clone using Spread Operator:
+```javascript
+const original = { name: 'Alice', address: { city: 'New York' } };
+const shallowClone = { ...original };
+shallowClone.address.city = 'Los Angeles';
+
+console.log(original.address.city); // Los Angeles
+console.log(shallowClone.address.city); // Los Angeles
+```
+
+### Deep Clone Example
+To perform a deep clone, you can recursively copy each object or array. A simple method is to use `JSON.parse` and `JSON.stringify`, which works for objects without methods or circular references.
+
+#### Deep Clone using `JSON.parse` and `JSON.stringify`:
+```javascript
+const original = { name: 'Alice', address: { city: 'New York' } };
+const deepClone = JSON.parse(JSON.stringify(original));
+deepClone.address.city = 'Los Angeles';
+
+console.log(original.address.city); // New York (not affected)
+console.log(deepClone.address.city); // Los Angeles
+```
+
+This method will not handle functions, special objects (like `Date`, `RegExp`), or circular references.
+
+### Polyfill for Shallow Clone and Deep Clone
+
+#### Shallow Clone Polyfill
+For shallow cloning, a simple polyfill using `Object.assign` can be created:
+```javascript
+if (!Object.prototype.shallowClone) {
+  Object.prototype.shallowClone = function() {
+    return Object.assign({}, this);
+  };
+}
+
+const original = { name: 'Alice', address: { city: 'New York' } };
+const shallowClone = original.shallowClone();
+shallowClone.address.city = 'Los Angeles';
+
+console.log(original.address.city); // Los Angeles (affects the original object)
+console.log(shallowClone.address.city); // Los Angeles
+```
+
+#### Deep Clone Polyfill
+For deep cloning, here's a recursive polyfill function:
+```javascript
+if (!Object.prototype.deepClone) {
+  Object.prototype.deepClone = function() {
+    if (this === null || typeof this !== 'object') {
+      return this; // Non-object values are returned as-is
+    }
+
+    // Handle array case
+    if (Array.isArray(this)) {
+      return this.map(item => item.deepClone());
+    }
+
+    // Handle object case
+    const clonedObject = {};
+    for (const key in this) {
+      if (this.hasOwnProperty(key)) {
+        clonedObject[key] = this[key].deepClone();
+      }
+    }
+    return clonedObject;
+  };
+}
+
+const original = { name: 'Alice', address: { city: 'New York' } };
+const deepClone = original.deepClone();
+deepClone.address.city = 'Los Angeles';
+
+console.log(original.address.city); // New York (not affected)
+console.log(deepClone.address.city); // Los Angeles
+```
+
+### Summary
+- **Shallow Clone** copies the top-level properties, but nested objects or arrays are shared by reference.
+- **Deep Clone** creates a fully independent copy, recursively cloning all nested objects and arrays.
+- Polyfills can be created for shallow and deep cloning using `Object.assign()` and recursion, respectively.
+

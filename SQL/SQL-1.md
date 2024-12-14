@@ -1,49 +1,47 @@
-### PostgreSQL Concepts Explained for SQL Statements
-
-This document provides an explanation of the PostgreSQL concepts involved in the SQL statements listed.
+Here’s a comprehensive document that explains all the PostgreSQL concepts involved in the SQL statements you provided, along with the code examples.
 
 ---
 
-#### **1. Table Creation and Data Types**
+## PostgreSQL Concepts Explained
+
+### 1. **Creating Tables**
+
+The `CREATE TABLE` statement is used to create a new table in the database. Each column is defined with a name and a data type. In the following example, a table named `customer` is created with several columns:
 
 ```sql
 CREATE TABLE customer 
 (
-	CustId int8 PRIMARY KEY,
-	CustName varchar(50),
-	Age int NOT NULL,
-	City char(50),
-	Slary numeric
+    CustId int8 PRIMARY KEY,
+    CustName varchar(50),
+    Age int NOT NULL,
+    City char(50),
+    Slary numeric
 );
 ```
 
-- **CREATE TABLE**: This command creates a new table in the database.
-- **Data Types**:
-  - `int8`: A 64-bit integer (bigint).
-  - `varchar(n)`: A variable-length string with a maximum length of `n` characters.
-  - `char(n)`: A fixed-length string of `n` characters.
-  - `numeric`: A number with arbitrary precision (can store decimal values).
-- **PRIMARY KEY**: A unique identifier for each row in the table, which ensures that the `CustId` column has unique values.
-- **NOT NULL**: This constraint ensures that the `Age` column cannot have null values.
+- **CustId**: Integer type, set as the `PRIMARY KEY`, meaning it uniquely identifies each record.
+- **CustName**: A string type with a maximum length of 50 characters.
+- **Age**: An integer that cannot be `NULL` (i.e., it must have a value).
+- **City**: A fixed-length string (50 characters).
+- **Slary**: A numeric type used for salary, which can store numbers with decimals.
 
----
+### 2. **Selecting Data**
 
-#### **2. Selecting Data**
+The `SELECT` statement is used to retrieve data from a table. The wildcard `*` retrieves all columns:
 
 ```sql
 SELECT * FROM customer;
 ```
 
-- **SELECT**: Retrieves data from a table.
-- **`*`**: A wildcard that selects all columns in the table.
+### 3. **Inserting Data**
 
----
-
-#### **3. Inserting Data**
+The `INSERT INTO` statement is used to add new rows into a table. You can insert multiple rows in a single statement:
 
 ```sql
 INSERT INTO customer
-(CustID, CustName, Age, City, Slary)
+(
+    CustID, CustName, Age, City, Slary
+)
 VALUES
 (1, 'Sam', 26, 'Delhi', 9000),
 (2, 'Ram', 19, 'Banglore', 11000),
@@ -51,12 +49,9 @@ VALUES
 (4, 'Jam', 26, 'Pune', 10000);
 ```
 
-- **INSERT INTO**: Adds new rows to a table.
-- **VALUES**: Specifies the values to be inserted into the respective columns.
+### 4. **Updating Data**
 
----
-
-#### **4. Updating Data**
+The `UPDATE` statement is used to modify existing records in a table:
 
 ```sql
 UPDATE customer 
@@ -64,96 +59,111 @@ SET CustName = 'Xam', Age = 32
 WHERE CustID = 4;
 ```
 
-- **UPDATE**: Modifies existing rows in a table.
-- **SET**: Specifies the columns to be updated and their new values.
-- **WHERE**: Filters the rows that need to be updated.
+### 5. **Deleting Data**
 
----
-
-#### **5. Deleting Data**
+The `DELETE` statement is used to remove rows from a table:
 
 ```sql
 DELETE FROM customer WHERE CustID = 3;
 ```
 
-- **DELETE**: Removes rows from a table.
-- **WHERE**: Filters the rows to be deleted.
+### 6. **Truncating Data**
 
----
-
-#### **6. Truncating Data**
+The `TRUNCATE TABLE` statement is used to delete all rows from a table, but it does not remove the table structure:
 
 ```sql
 TRUNCATE TABLE customer;
 ```
 
-- **TRUNCATE**: Removes all rows from a table but retains the structure of the table. It is faster than DELETE because it does not log individual row deletions.
+### 7. **Creating Another Table**
 
----
-
-#### **7. Creating Another Table**
+The `CREATE TABLE` statement is again used to create a table named `classroom`:
 
 ```sql
 CREATE TABLE classroom 
 (
-	rollno int8 PRIMARY KEY,
-	name varchar(50) NOT NULL,
-	house char(12) NOT NULL,
-	grade char(1)
+    rollno int8 PRIMARY KEY,
+    name varchar(50) NOT NULL,
+    house char(12) NOT NULL,
+    grade char(1)
 );
 ```
 
-- Similar to the `CREATE TABLE` statement for the `customer` table, this creates a new table called `classroom`.
-
----
-
-#### **8. Selecting Data with Conditions**
+### 8. **Inserting Data into Another Table**
 
 ```sql
-SELECT name FROM classroom WHERE grade = 'A';
+INSERT INTO classroom
+(rollno, name, house, grade)
+VALUES
+(1, 'Sam', 'Akash', 'B'),
+(2, 'Ram', 'Agni', 'A'),
+(3, 'Shyam', 'Jal', 'B'),
+(4, 'Sundar', 'Agni', 'A'),
+(5, 'Ram', 'Yayu', 'B');
 ```
 
-- **WHERE**: Filters rows based on a condition (e.g., selecting students with grade 'A').
+### 9. **Selecting Specific Columns**
 
----
+```sql
+SELECT name FROM classroom;
+```
 
-#### **9. DISTINCT**
+### 10. **Using DISTINCT**
+
+The `DISTINCT` keyword is used to return only distinct (unique) values:
 
 ```sql
 SELECT DISTINCT house FROM classroom;
 ```
 
-- **DISTINCT**: Removes duplicate values from the result set.
+### 11. **Filtering with WHERE**
 
----
+```sql
+SELECT name FROM classroom WHERE grade = 'A';
+```
 
-#### **10. LIMIT**
+### 12. **Limiting Results**
+
+The `LIMIT` clause is used to restrict the number of rows returned:
 
 ```sql
 SELECT name FROM classroom LIMIT 2;
 ```
 
-- **LIMIT**: Restricts the number of rows returned by the query.
+### 13. **Ordering Results**
 
----
-
-#### **11. Ordering Data**
+The `ORDER BY` clause is used to sort the result set:
 
 ```sql
 SELECT * FROM classroom ORDER BY grade ASC;
 SELECT * FROM classroom ORDER BY grade DESC;
 ```
 
-- **ORDER BY**: Sorts the result set by one or more columns.
-- **ASC**: Sorts in ascending order (default).
-- **DESC**: Sorts in descending order.
+### 14. **Grouping Data**
 
----
-
-#### **12. Aggregation Functions**
+The `GROUP BY` clause groups rows that have the same values into summary rows:
 
 ```sql
-SELECT house, ROUND(AVG(marks), 2) AS average_marks
+SELECT house FROM classroom GROUP BY house;
+```
+
+### 15. **Using Aggregate Functions**
+
+Aggregate functions perform calculations on a set of values and return a single value. Examples include `COUNT`, `AVG`, `MAX`, etc.
+
+#### Example 1: Generating Random Marks
+
+```sql
+SELECT rollno, name, house, grade, 
+       FLOOR(RANDOM() * 51 + 50) AS marks
+FROM classroom;
+```
+
+#### Example 2: Calculating Average Marks per House
+
+```sql
+SELECT house,
+       ROUND(AVG(marks), 2) AS average_marks
 FROM (
     SELECT rollno, name, house, grade,
            FLOOR(RANDOM() * 51 + 51) AS marks
@@ -162,13 +172,19 @@ FROM (
 GROUP BY house;
 ```
 
-- **AVG()**: Calculates the average value of a column.
-- **ROUND()**: Rounds a numeric value to a specified number of decimal places.
-- **GROUP BY**: Groups rows that have the same values in specified columns into summary rows.
+#### Example 3: Counting Students per Grade
 
----
+```sql
+SELECT grade, 
+       COUNT(*) AS total_students, 
+       ROUND(COUNT(*) * 100.0 / (SELECT COUNT(*) FROM classroom), 2) AS percentage
+FROM classroom
+GROUP BY grade;
+```
 
-#### **13. Window Functions (RANK)**
+### 16. **Window Functions**
+
+The `RANK()` function assigns a rank to each row within a partition of a result set:
 
 ```sql
 WITH random_scores AS (
@@ -185,28 +201,79 @@ FROM (
 WHERE rank = 1;
 ```
 
-- **WITH**: Defines a common table expression (CTE) that can be referred to within the main query.
-- **RANK()**: A window function that assigns a rank to each row within a partition (in this case, by `house`).
-- **PARTITION BY**: Divides the result set into partitions to perform window functions on each partition.
+### 17. **String Functions**
 
----
+PostgreSQL provides various string functions to manipulate text data.
 
-#### **14. String Functions**
+#### Uppercase String Function
 
-- **UPPER()**: Converts a string to uppercase.
-- **LOWER()**: Converts a string to lowercase.
-- **CONCAT()**: Concatenates two or more strings.
-- **LENGTH()**: Returns the length of a string.
-- **SUBSTRING()**: Extracts a substring from a string.
-- **REPLACE()**: Replaces a substring within a string with another string.
-- **LPAD()**: Pads a string on the left with a specified character.
-- **RPAD()**: Pads a string on the right with a specified character.
-- **TRIM()**: Removes leading and trailing spaces from a string.
-- **POSITION()**: Returns the position of a substring within a string.
+```sql
+SELECT rollno, UPPER(name) AS name_uppercase, house, grade
+FROM classroom;
+```
 
----
+#### Lowercase String Function
 
-#### **15. Grouping Data and Aggregating**
+```sql
+SELECT rollno, name, LOWER(house) AS house_lowercase, grade
+FROM classroom;
+```
+
+#### Concatenate Strings
+
+```sql
+SELECT rollno, CONCAT(name, ' from ', house) AS description
+FROM classroom;
+```
+
+#### Length of String
+
+```sql
+SELECT rollno, name, LENGTH(name) AS name_length
+FROM classroom;
+```
+
+#### Substring Function
+
+```sql
+SELECT rollno, name, SUBSTRING(name, 1, 3) AS short_name 
+FROM classroom;
+```
+
+#### Replace a Substring
+
+```sql
+SELECT rollno, name, REPLACE(house, 'A', '@') AS house_replace
+FROM classroom;
+```
+
+#### Pad Strings
+
+```sql
+SELECT rollno, name, LPAD(name, 10, '-') AS left_padded
+FROM classroom;
+
+SELECT rollno, name, RPAD(name, 10, '*') AS right_padded
+FROM classroom;
+```
+
+#### Trim Functions
+
+```sql
+SELECT rollno, name, TRIM(BOTH ' ' FROM name) AS trimmed_name
+FROM classroom;
+```
+
+#### Position of Substring
+
+```sql
+SELECT rollno, name, POSITION('am' IN name) AS substring_position
+FROM classroom;
+```
+
+### 18. **GROUP BY with Aggregate Functions**
+
+You can use `GROUP BY` to group data and perform aggregate functions like `COUNT`, `MAX`, `AVG`:
 
 ```sql
 SELECT house, COUNT(*) AS student_count
@@ -214,12 +281,49 @@ FROM classroom
 GROUP BY house;
 ```
 
-- **COUNT()**: Returns the number of rows in a group.
-- **GROUP BY**: Groups rows based on a specified column(s).
+#### MAX Function
 
----
+```sql
+SELECT grade, MAX(rollno) AS highest_rollno
+FROM classroom
+GROUP BY grade;
+```
 
-#### **16. HAVING Clause**
+#### Array Aggregation
+
+```sql
+SELECT house, ARRAY_AGG(grade) AS grades
+FROM classroom
+GROUP BY house;
+```
+
+#### Count Function
+
+```sql
+SELECT grade, COUNT(*) AS student_count
+FROM classroom
+GROUP BY grade;
+```
+
+#### Grouping Multiple Values
+
+```sql
+SELECT house, grade, COUNT(*) AS student_count
+FROM classroom
+GROUP BY house, grade;
+```
+
+#### Average Function
+
+```sql
+SELECT grade, ROUND(AVG(rollno), 2) AS avg_rollno
+FROM classroom
+GROUP BY grade;
+```
+
+### 19. **HAVING Clause**
+
+The `HAVING` clause is used to filter records after the `GROUP BY` operation:
 
 ```sql
 SELECT grade, ROUND(AVG(rollno), 2) AS avg_rollno
@@ -228,47 +332,67 @@ GROUP BY grade
 HAVING AVG(rollno) > 2;
 ```
 
-- **HAVING**: Filters groups after aggregation, similar to `WHERE`, but for aggregated results.
-
----
-
-#### **17. ALTER TABLE**
-
 ```sql
-ALTER TABLE classroom ADD COLUMN Age INT;
-ALTER TABLE classroom DROP COLUMN age;
-ALTER TABLE classroom RENAME COLUMN nick_name TO name;
-ALTER TABLE classroom ALTER COLUMN age TYPE SMALLINT;
+SELECT house, COUNT(*) AS student_count
+FROM classroom
+WHERE grade = 'B'
+GROUP BY house
+HAVING COUNT(*) >= 1;
 ```
 
-- **ALTER TABLE**: Modifies the structure of an existing table.
-  - **ADD COLUMN**: Adds a new column.
-  - **DROP COLUMN**: Removes an existing column.
-  - **RENAME COLUMN**: Changes the name of an existing column.
-  - **ALTER COLUMN TYPE**: Modifies the data type of a column.
+### 20. **ALTER TABLE Commands**
 
----
+The `ALTER TABLE` command is used to modify an existing table structure.
 
-#### **18. Constraints**
+#### Add Column
 
 ```sql
-ALTER TABLE classroom ADD CONSTRAINT unique_name UNIQUE(name);
-ALTER TABLE classroom DROP CONSTRAINT unique_name;
+ALTER TABLE classroom
+ADD COLUMN Age INT;
 ```
 
-- **UNIQUE**: Ensures that all values in a column are distinct.
-- **CONSTRAINT**: Defines rules for table columns, such as uniqueness or foreign key relationships.
-
----
-
-#### **19. Renaming a Table**
+#### Drop Column
 
 ```sql
-ALTER TABLE classroom RENAME TO students;
+ALTER TABLE classroom
+DROP COLUMN age;
 ```
 
-- **RENAME TO**: Changes the name of a table.
+#### Rename Column
+
+```sql
+ALTER TABLE classroom
+RENAME COLUMN nick_name TO name;
+```
+
+#### Modify Column Data Type
+
+```sql
+ALTER TABLE classroom
+ALTER COLUMN age TYPE SMALLINT;
+```
+
+#### Add Constraint (Unique)
+
+```sql
+ALTER TABLE classroom
+ADD CONSTRAINT unique_name UNIQUE(name);
+```
+
+#### Drop Constraint
+
+```sql
+ALTER TABLE classroom
+DROP CONSTRAINT unique_name;
+```
+
+#### Rename Table
+
+```sql
+ALTER TABLE classroom
+RENAME TO students;
+```
 
 ---
 
-This document covers fundamental PostgreSQL concepts like data types, table operations, data retrieval, filtering, aggregation, and table structure modifications.
+This document covers the PostgreSQL concepts involved in the SQL statements, including table creation, data manipulation, aggregation, string functions, grouping, and altering tables.

@@ -102,76 +102,76 @@ FROM (
 WHERE rank = 1;
 
 
-Upper String function
+-- Upper String function
 SELECT rollno, UPPER(name) AS name_uppercase, house , grade
 FROM classroom;
 
-Lowercase String function
+-- Lowercase String function
 SELECT rollno, name, LOWER(house) AS house_lowercase, grade
 FROM classroom;
 
-Concat String function
+-- Concat String function
 SELECT rollno, CONCAT(name,' from ',house) AS description
 FROM classroom;
 
-Length string function
+-- Length string function
 SELECT rollno, name, LENGTH(name) AS name_length
 FROM classroom;
 
-Substring string function
+-- Substring string function
 SELECT rollno, name, SUBSTRING(name,1,3) AS short_name 
 FROM classroom
 
-Replace a substring function
+-- Replace a substring function
 SELECT rollno, name , REPLACE(house, 'A', '@') AS house_replace
 FROM classroom;
 
-Pad string function
+-- Pad string function
 SELECT rollno, name, LPAD(name, 10, '-') AS left_padded
 FROM classroom
 
 SELECT rollno, name, RPAD(name, 10, '*') AS left_padded
 FROM classroom
 
-Trim, ltrim, rtrim function
+-- Trim, ltrim, rtrim function
 SELECT rollno, name, TRIM(BOTH ' ' FROM name) AS trimmed_name
 FROM classroom;
 
-Position string function
+-- Position string function
 SELECT rollno, name, POSITION ('am' IN name) AS substring_position
 FROM classroom;
 
-GROUP BY
+-- GROUP BY
 SELECT house, COUNT(*) AS student_count
 FROM classroom
 GROUP BY house;
 
-MAX function
+-- MAX function
 SELECT grade , MAX(rollno) AS highest_rollno
 FROM classroom
 GROUP BY grade;
 
-Array Aggregation function
+-- Array Aggregation function
 SELECT house, ARRAY_AGG(grade) AS grades
 FROM classroom
 GROUP BY house;
 
-Count function
+-- Count function
 SELECT grade, COUNT(*) AS student_count
 FROM classroom
 GROUP BY grade;
 
-Group multiple values
+-- Group multiple values
 SELECT house, grade, COUNT(*) AS student_count
 FROM classroom
 GROUP BY house, grade;
 
-Average function
+-- Average function
 SELECT grade, ROUND(AVG(rollno),2) AS avg_rollno
 FROM classroom
 GROUP BY grade;
 
-HAVING using GROUP BY
+-- HAVING using GROUP BY
 SELECT grade, ROUND(AVG(rollno),2) AS avg_rollno
 FROM classroom
 GROUP BY grade
@@ -183,34 +183,35 @@ WHERE grade = 'B'
 GROUP BY house
 HAVING COUNT(*) >= 1
 
-Alter table command
+-- Alter table command
 ALTER TABLE classroom
 ADD COLUMN Age INT;
 
 SELECT * from classroom
 
-Drop Column
+-- Drop Column
 ALTER TABLE classroom
 DROP COLUMN age
 
 SELECT * from classroom
 
+-- Rename Column
 ALTER TABLE classroom
 RENAME COLUMN nick_name TO name
 
-Modify cloumn data type
+-- Modify cloumn data type
 ALTER TABLE classroom
 ALTER COLUMN age TYPE SMALLINT;
 
-Add a constraint ( Unique )
+-- Add a constraint ( Unique )
 ALTER TABLE classroom
 ADD CONSTRAINT unique_name UNIQUE(name);
 
-Drop constraint
+-- Drop constraint
 ALTER TABLE classroom
 DROP CONSTRAINT unique_name;
 
-Rename table
+-- Rename table
 ALTER TABLE classroom
 RENAME TO students
 
